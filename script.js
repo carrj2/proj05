@@ -11,7 +11,7 @@ var invVT = mat3.create();
 var texture;
 var skybox;
 var centerCube;
-var sb = new Skybox();
+var sb = new Skybox(1000);
 
 var xRot = 20.0, yRot = 0, zRot = 0;
 
@@ -109,9 +109,7 @@ function getShader(gl, id) {
 // create the buffers for the objects
 function initBuffers() {
 
-
-    sb.initSkybox(1000);
-
+    sb.initSkybox();
     //initSkybox(1000);
 
     initCube(20);
