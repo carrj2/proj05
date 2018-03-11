@@ -1,8 +1,7 @@
 class Skybox {
 
         constructor(size) {
-
-            this.modelData = cube(size);
+            this.modelData = new Cube(size);
             this.skybox = {};
 
 
@@ -12,13 +11,13 @@ class Skybox {
     initSkybox() {
         this.skybox.positionBuffer = gl.createBuffer();
         this.indexBuffer = gl.createBuffer();
-        this.skybox.count = this.modelData.indices.length;
+        this.skybox.count = this.modelData.cube.indices.length;
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.skybox.positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, this.modelData.vertexPositions, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, this.modelData.cube.vertexPositions, gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.skybox.indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.modelData.indices, gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.modelData.cube.indices, gl.STATIC_DRAW);
         }
 
     drawSkybox() {
