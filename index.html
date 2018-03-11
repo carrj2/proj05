@@ -1,0 +1,77 @@
+<head>
+    <title>Skybox</title>
+
+	<script type="text/javascript" src="gl-matrix-min.js"></script>
+	<script type="text/javascript" src="js/skybox.js"></script>
+
+	<script id="shader-vs" type="x-shader/x-vertex">
+        attribute vec3 aPosition;
+
+        uniform mat4 uPMatrix;
+        uniform mat4 uMVMatrix;
+
+        varying vec3 vPosition;
+
+        void main() {
+            vec4 position = uMVMatrix * vec4(aPosition, 1.0);
+            gl_Position = uPMatrix * position;
+            vPosition = aPosition;
+        }
+	</script>
+
+	<script id="shader-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec3 vPosition;
+
+        uniform samplerCube skybox;
+
+        void main() {
+            gl_FragColor = textureCube(skybox, vPosition);
+        }
+	</script>
+
+	<script id="cubeShader-vs" type="x-shader/x-vertex">
+        attribute vec3 aPosition;
+        attribute vec3 aNormal;
+
+        uniform mat4 uPMatrix;
+        uniform mat4 uMVMatrix;
+
+        varying vec3 vPosition;
+        varying vec3 vNormal;
+
+        void main() {
+            vec4 position = uMVMatrix * vec4(aPosition, 1.0);
+            gl_Position = uPMatrix * position;
+            vPosition = position.xyz;
+            vNormal = aNormal;
+        }
+	</script>
+
+	<script id="cubeShader-fs" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec3 vCoords;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+
+        uniform samplerCube skybox;
+        uniform mat3 uNMatrix;
+        uniform mat3 invVT;
+
+        void main() {
+            vec3 N = uNMatrix * vNormal;
+            vec3 V = -vPosition;
+            vec3 R = 2.0 * dot(V, N) * N - V;
+            vec3 T = invVT * R;
+            gl_FragColor = textureCube(skybox, T);
+        }
+	</script>
+
+	<script type="text/javascript" src="script.js"></script>
+
+</head>
+<body onLoad='webGLStart();' style="padding: 0; margin: 0; overflow: hidden;">
+	<canvas id="myCanvas" style="border: none;" width="500" height="500"></canvas>
+</body>
