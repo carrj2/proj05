@@ -2,7 +2,8 @@ class Cube {
 
     constructor(size) {
         this.size = size;
-        this.cube = this.cube(size);
+        this.modelData = this.cube(size);
+        this.centerCube = {};
     }
 
     cube(size) {
@@ -140,4 +141,51 @@ class Cube {
             indices: new Uint16Array(cubeVertexIndices)
         }
     }
+
+    initCube() {
+
+        this.centerCube.positionBuffer = gl.createBuffer();
+        this.centerCube.normalBuffer = gl.createBuffer();
+        this.centerCube.indexBuffer = gl.createBuffer();
+        this.centerCube.count = this.modelData.indices.length;
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.centerCube.positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, this.modelData.vertexPositions, gl.STATIC_DRAW);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.centerCube.normalBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, this.modelData.vertexNormals, gl.STATIC_DRAW);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.centerCube.indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.modelData.indices, gl.STATIC_DRAW);
+    }
+
+    drawCube() {
+
+        gl.useProgram(cubeShader);
+
+        gl.uniformMatrix4fv(cubeShader.pMatrixUniform, false, uPMatrix);
+
+        if (texture) {
+            gl.enableVertexAttribArray(cubeShader.positionAttribute);
+            gl.enableVertexAttribArray(cubeShader.normalAttribute);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.centerCube.positionBuffer);
+            gl.vertexAttribPointer(cubeShader.positionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.centerCube.normalBuffer);
+            gl.vertexAttribPointer(cubeShader.normalAttribute, 3, gl.FLOAT, false, 0, 0);
+
+            gl.uniformMatrix4fv(cubeShader.mvMatrixUniform, false, uMVMatrix);
+            gl.uniformMatrix3fv(cubeShader.nMatrixUniform, false, uNMatrix);
+            gl.uniformMatrix3fv(cubeShader.uInvVT, false, invVT);
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.centerCube.indexBuffer);
+
+            gl.drawElements(gl.TRIANGLES, this.centerCube.count, gl.UNSIGNED_SHORT, 0);
+
+            gl.disableVertexAttribArray(cubeShader.positionAttribute);
+            gl.disableVertexAttribArray(cubeShader.normalAttribute);
+        }
+    }
+
 }
