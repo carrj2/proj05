@@ -9,13 +9,13 @@ var uNMatrix = mat3.create();
 var invVT = mat3.create();
 
 var texture;
-var skybox;
-var centerCube;
 
 var sb = new Skybox(1000);
 var cb = new Cube(20);
 
-var xRot = 20.0, yRot = 0, zRot = 0;
+var xRot = 20.0;
+var yRot = 0;
+var zRot = 0;
 
 function initGL(canvas) {
 
@@ -120,11 +120,21 @@ function initTextures(urls) {
 
     var ct = 0;
     var img = new Array(6);
+    // var urls = [
+    //    "cubemap/front.jpg", "cubemap/back.jpg", // x
+    //    "cubemap/top.jpg", "cubemap/bottom.jpg", // z
+    //    "cubemap/right.jpg", "cubemap/left.jpg"  // y
+    // ];
     var urls = [
-       "cubemap/front.jpg", "cubemap/back.jpg", // x
-       "cubemap/top.jpg", "cubemap/bottom.jpg", // z
-       "cubemap/right.jpg", "cubemap/left.jpg"  // y
+        "cubemap/mountains/front.png", "cubemap/mountains/back.png", // x
+        "cubemap/mountains/top.png", "cubemap/mountains/bottom.png", // z
+        "cubemap/mountains/right.png", "cubemap/mountains/left.png"  // y
     ];
+    // var urls = [
+    //         "cubemap/mp_blood/front.jpg", "cubemap/mp_blood/back.jpg", // x
+    //         "cubemap/mp_blood/top.jpg", "cubemap/mp_blood/bottom.jpg", // z
+    //         "cubemap/mp_blood/right.jpg", "cubemap/mp_blood/left.jpg"  // y
+    //     ];
     for (var i = 0; i < 6; i++) {
         img[i] = new Image();
         img[i].onload = function() {

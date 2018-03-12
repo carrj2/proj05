@@ -71,9 +71,42 @@
         }
 	</script>
 
+	<script id=mp-blood-shader" type="WebGLShader">
+	// Direction & elevation checked and adjusted - Speaker
+
+	textures/skies/mp_blood
+	{
+	qer_editorimage env/mp_blood/blood_ft.tga
+	surfaceparm noimpact
+	surfaceparm nolightmap
+	q3map_globaltexture
+	q3map_lightsubdivide 256
+	surfaceparm sky
+	q3map_surfacelight 100
+	q3map_sun 1 0.7 0.7 100 15 20
+	skyparms env/mp_blood/blood - -
+	}
+
+	</script>
+
 
 
 </head>
+
+Speed in:
+<br/>
+<div class="slidecontainer">
+	x directon
+	<input type="range" min="0" max="90" value="20" class="slider" id="xCoord">
+</div>
+<div class="slidecontainer">
+	y directon
+	<input type="range" min="0" max="90" value="0" class="slider" id="yCoord">
+</div>
+<div class="slidecontainer">
+	z directon
+	<input type="range" min="0" max="90" value="0" class="slider" id="zCoord">
+</div>
 <body onLoad='webGLStart();' style="padding: 0; margin: 0; overflow: hidden;">
 	<canvas id="myCanvas" style="border: none;" width="500" height="500"></canvas>
 </body>
